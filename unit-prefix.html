@@ -1,0 +1,122 @@
+<link rel="import" href="../polymer/polymer.html">
+<script>
+
+  var unitPrefixes = {
+
+    pico: 1E-12,
+    nano: 1E-9,
+    micro: 1E-5,
+    milli: 1E-3,
+    centi: 1E-2,
+    deci: 1E-1,
+    deca: 1E+1,
+    hecto: 1E+2,
+    kilo: 1E+3,
+    mega: 1E+6,
+    giga: 1E+9,
+    terra: 1E+12
+
+  };
+
+  function unitPrefixMatches(prefix, unit) {
+    return prefix === unit.substr(0, prefix.length);
+  }
+
+  function getUnitPrefix(unit) {
+
+    for(var prefix in unitPrefixes) {
+      console.log(prefix, unit);
+      if(unitPrefixMatches(prefix, unit)) {
+        return prefix;
+      }
+    }
+
+    return null
+
+  }
+
+  function getUnitFactor(unit) {
+
+    var prefix = getUnitPrefix(unit);
+    if(prefix === null) {
+      return 1;
+    }
+
+    return unitPrefixes[prefix];
+
+  }
+
+  function normalize(value, unit) {
+
+    console.log('normalize', value, unit, getUnitFactor(unit));
+    return value * getUnitFactor(unit);
+
+  }
+
+  Polymer({
+
+    is: 'unit-prefix',
+
+    properties: {
+      from: {
+        type: String,
+        notify: true
+      },
+      to: {
+        type: String,
+        notify: true
+      },
+      value: {
+        type: Number,
+        notify: true
+      },
+      result: {
+        type: Number,
+        notify: true,
+        readOnly: true
+      }
+    },
+
+    ready: function() {
+      this.addEventListener('from-changed', this.update);
+      this.addEventListener('to-changed', this.update);
+      this.addEventListener('value-changed', this.update);
+    },
+
+    isComplete: function() {
+      return (isDefined(this.from) && isDefined(this.to) && isDefined(this.value));
+    },
+
+    calculate: function() {
+
+      if(this.isComplete()) {
+
+        var normalizedValue = normalize(this.value, this.from),
+            targetUnitFactor = getUnitFactor(this.to),
+            result = (normalizedValue / targetUnitFactor);
+
+        return parseFloat(result.toPrecision(12));
+
+      }
+
+      return null;
+
+    },
+
+    update: function() {
+
+      if(!this.isComplete()) {
+        this._setResult(null);
+        return;
+      }
+
+      this._setResult(this.calculate());
+
+    }
+
+  });
+
+  function isDefined(value) {
+    return (value !== undefined) && (value !== null);
+  }
+</script>
