@@ -46,6 +46,7 @@
       this.addEventListener('from-changed', this.update);
       this.addEventListener('to-changed', this.update);
       this.addEventListener('value-changed', this.update);
+      this.update();
     },
 
     isComplete: function() {
@@ -77,7 +78,7 @@
 
       this._setResult(this.calculate());
 
-    }
+    },
 
   });
 
@@ -90,16 +91,12 @@
   }
 
   function getUnitPrefix(unit) {
-
     for(var prefix in unitPrefixes) {
-      console.log(prefix, unit);
       if(unitPrefixMatches(prefix, unit)) {
         return prefix;
       }
     }
-
     return null;
-
   }
 
   function getUnitFactor(unit) {
