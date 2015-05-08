@@ -66,12 +66,16 @@
       return (isDefined(this.from) && isDefined(this.to) && isDefined(this.value));
     },
 
-    calculate: function() {
+    calculate: function(from, to, value) {
+
+      from = from || this.from;
+      to = to || this.to;
+      value = value || this.value;
 
       if(this.isComplete()) {
 
-        var targetUnitFactor = getUnitFactor(this.to),
-            result = normalize((this.value / targetUnitFactor), this.from);
+        var targetUnitFactor = getUnitFactor(to),
+            result = normalize((value / targetUnitFactor), from);
 
         return parseFloat(result.toPrecision(12));
 
