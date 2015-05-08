@@ -1,6 +1,6 @@
 <!doctype html>
 <head>
-  <title>unit-quantize</title>
+  <title>unit-prefix</title>
 
   <script src="../../webcomponentsjs/webcomponents.js"></script>
   <script src="../../web-component-tester/browser.js"></script>
@@ -48,7 +48,6 @@
       };
 
       setup(function() {
-        targetUnit = 'kilometer';
         el.from = testValues.from.toString();
         el.to = testValues.to.toString();
         el.value = parseInt(testValues.value, 10);
@@ -60,12 +59,11 @@
         expect(el.value).to.be.equal(testValues.value);
       });
 
-    });   
+    });
 
     suite('unit meter', function () {
 
       setup(function() {
-        console.log('set unit to meter');
         el.from = 'meter';
       }); 
 
