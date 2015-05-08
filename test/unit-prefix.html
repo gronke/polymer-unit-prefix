@@ -1,0 +1,210 @@
+<!doctype html>
+<head>
+  <title>unit-quantize</title>
+
+  <script src="../../webcomponentsjs/webcomponents.js"></script>
+  <script src="../../web-component-tester/browser.js"></script>
+  <script src="../../test-fixture/test-fixture-mocha.js"></script>
+
+  <link rel="import" href="../../polymer/polymer.html">
+  <link rel="import" href="../../test-fixture/test-fixture.html">
+  <link rel="import" href="../unit-prefix.html">
+</head>
+<body>
+  <test-fixture id="UnitPrefix">
+    <template>
+      <unit-prefix></unit-prefix>
+    </template>
+  </test-fixture>
+  <script>
+
+  var quantizationTable = {
+    meter: {
+      'kilometer': 3.28084
+    },
+    'second': {
+      'millisecond': 1000,
+      'minute': (1 / 60),
+      'hour': (1 / 60 / 60),
+      'day': (1 / 60 / 60 / 24),
+      'week': (1 / 60 / 60 / 24 / 7)
+    }
+  }
+
+  suite('<unit-prefix>', function() {
+
+    var el;
+
+    setup(function() {
+      el = fixture('UnitPrefix');
+    });
+
+    suite('basic usage', function() {
+
+      var testValues = {
+        from: "kilometer",
+        to: "centimeter",
+        value: 1234
+      };
+
+      setup(function() {
+        targetUnit = 'kilometer';
+        el.from = testValues.from.toString();
+        el.to = testValues.to.toString();
+        el.value = parseInt(testValues.value, 10);
+      });
+
+      test('input values are set properly', function() {
+        expect(el.from).to.be.equal(testValues.from);
+        expect(el.to).to.be.equal(testValues.to);
+        expect(el.value).to.be.equal(testValues.value);
+      });
+
+    });   
+
+    suite('unit meter', function () {
+
+      setup(function() {
+        console.log('set unit to meter');
+        el.from = 'meter';
+      }); 
+
+      test('can be converted to kilometer', function() {
+
+        el.to = 'kilometer';
+
+        el.value = 0;
+        expect(el.result).to.be.equal(0);
+
+        el.value = 1000;
+        expect(el.result).to.be.equal(1);
+
+        el.value = 500;
+        expect(el.result).to.be.equal(0.5);
+
+      });
+
+      test('can be converted to centimeter', function() {
+
+        el.to = 'centimeter';
+
+        el.value = 0;
+        expect(el.result).to.be.equal(0);
+
+        el.value = 1;
+        expect(el.result).to.be.equal(100);
+
+        el.value = 0.01;
+        expect(el.result).to.be.equal(1);
+
+      });
+
+      test('can be converted to millimeter', function() {
+
+        el.to = 'millimeter';
+
+        el.value = 0;
+        expect(el.result).to.be.equal(0);
+
+        el.value = 1;
+        expect(el.result).to.be.equal(1000);
+
+        el.value = 0.01;
+        expect(el.result).to.be.equal(10);
+
+      });
+
+    });
+
+    suite('unit kilommeter', function () {
+
+      setup(function() {
+        el.from = 'kilometer';
+      }); 
+
+      test('can be converted to meter', function() {
+
+        el.to = 'meter';
+
+        el.value = 0;
+        expect(el.result).to.be.equal(0);
+
+        el.value = 1;
+        expect(el.result).to.be.equal(1000);
+
+        el.value = 0.5;
+        expect(el.result).to.be.equal(500);
+
+      });
+
+      test('can be converted to centimeter', function() {
+
+        el.to = 'centimeter';
+
+        el.value = 0;
+        expect(el.result).to.be.equal(0);
+
+        el.value = 1;
+        expect(el.result).to.be.equal(100000);
+
+        el.value = 0.00001;
+        expect(el.result).to.be.equal(1);
+
+      });
+
+    });
+
+    suite('unit decimeter', function () {
+
+      setup(function() {
+        el.from = 'decimeter';
+      }); 
+
+      test('can be converted to meter', function() {
+
+        el.to = 'meter';
+
+        el.value = 0;
+        expect(el.result).to.be.equal(0);
+
+        el.value = 1;
+        expect(el.result).to.be.equal(0.1);
+
+        el.value = 10;
+        expect(el.result).to.be.equal(1);
+
+      });
+
+      test('can be converted to centimeter', function() {
+
+        el.to = 'centimeter';
+
+        el.value = 0;
+        expect(el.result).to.be.equal(0);
+
+        el.value = 1;
+        expect(el.result).to.be.equal(10);
+
+        el.value = 0.1;
+        expect(el.result).to.be.equal(1);
+
+      });
+
+    });
+
+  });
+
+  function quantize(from, to, value) {
+
+    if(value !== undefined) {
+      return value * quantizationTable[from][to];
+    }
+
+    return function(value) {
+      return quantize(from, to, value);
+    };
+
+  }
+
+  </script>
+</body>
