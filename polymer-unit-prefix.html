@@ -18,6 +18,14 @@
 
   };
 
+  var timeUnits = {
+    second: 1,
+    minute: 60,
+    hour: 60 * 60,
+    day: 24 * 60 * 60,
+    week: 7 * 24 * 60 * 60
+  };
+
   Polymer({
 
     is: 'unit-prefix',
@@ -63,7 +71,7 @@
       if(this.isComplete()) {
 
         var targetUnitFactor = getUnitFactor(this.to),
-            result = (this.normalizedValue / targetUnitFactor);
+            result = normalize((this.value / targetUnitFactor), this.from);
 
         return parseFloat(result.toPrecision(12));
 
@@ -116,19 +124,28 @@
     return null;
   }
 
+  function getTimeUnitFactor(unit) {
+    return timeUnits[unit];
+  }
+
+  function isTimeUnit(unit) {
+    return timeUnits.hasOwnProperty(unit);
+  }
+
   function getUnitFactor(unit) {
 
-    var prefix = getUnitPrefix(unit);
-    if(prefix === null) {
-      return 1;
-    }
+    if(isTimeUnit(unit)) {
+      return getTimeUnitFactor(unit);
+    } else {
+      var prefix = getUnitPrefix(unit);
 
-    return unitPrefixes[prefix];
+      return (isDefined(prefix)) ? unitPrefixes[prefix] : 1;
+    }
 
   }
 
   function normalize(value, unit) {
-    return value * getUnitFactor(unit);
+    return getUnitFactor(unit) * value;
   }
 
 </script>
