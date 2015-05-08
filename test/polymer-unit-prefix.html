@@ -59,6 +59,54 @@
         expect(el.value).to.be.equal(testValues.value);
       });
 
+      test('normalizes input value when from is specified', function() {
+        expect(el.from).to.be.equal(testValues.from);
+        expect(el.to).to.be.equal(testValues.to);
+        expect(el.value).to.be.equal(testValues.value);
+      });
+
+    });
+
+    suite('normalization', function() {
+
+      setup(function() {
+        el.from = null;
+        el.to = null;
+        el.value = null;
+      });
+
+      test('returns null when no value or from property was set', function() {
+
+        expect(el.from).to.be.null;
+        expect(el.to).to.be.null;
+        expect(el.value).to.be.null;
+        expect(el.normalizedValue).to.be.null;
+
+      });
+
+      test('returns null when no value was set', function() {
+
+        el.from = 'meter';
+        el.to = 'kilometer';
+        el.value = null;
+
+        expect(el.from).to.be.equal('meter');
+        expect(el.to).to.be.equal('kilometer');
+        expect(el.value).to.be.null;
+        expect(el.normalizedValue).to.be.null;
+
+      });
+
+      test('returns normalized value when no value and no to property was set', function() {
+
+        el.from = 'kilometer';
+        el.to = 'meter';
+
+        el.value = 1
+        expect(el.normalizedValue).to.be.equal(1000);
+
+      });
+
     });
 
     suite('unit meter', function () {
