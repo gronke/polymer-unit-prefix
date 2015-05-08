@@ -18,41 +18,6 @@
 
   };
 
-  function unitPrefixMatches(prefix, unit) {
-    return prefix === unit.substr(0, prefix.length);
-  }
-
-  function getUnitPrefix(unit) {
-
-    for(var prefix in unitPrefixes) {
-      console.log(prefix, unit);
-      if(unitPrefixMatches(prefix, unit)) {
-        return prefix;
-      }
-    }
-
-    return null
-
-  }
-
-  function getUnitFactor(unit) {
-
-    var prefix = getUnitPrefix(unit);
-    if(prefix === null) {
-      return 1;
-    }
-
-    return unitPrefixes[prefix];
-
-  }
-
-  function normalize(value, unit) {
-
-    console.log('normalize', value, unit, getUnitFactor(unit));
-    return value * getUnitFactor(unit);
-
-  }
-
   Polymer({
 
     is: 'unit-prefix',
@@ -119,4 +84,37 @@
   function isDefined(value) {
     return (value !== undefined) && (value !== null);
   }
+
+  function unitPrefixMatches(prefix, unit) {
+    return prefix === unit.substr(0, prefix.length);
+  }
+
+  function getUnitPrefix(unit) {
+
+    for(var prefix in unitPrefixes) {
+      console.log(prefix, unit);
+      if(unitPrefixMatches(prefix, unit)) {
+        return prefix;
+      }
+    }
+
+    return null;
+
+  }
+
+  function getUnitFactor(unit) {
+
+    var prefix = getUnitPrefix(unit);
+    if(prefix === null) {
+      return 1;
+    }
+
+    return unitPrefixes[prefix];
+
+  }
+
+  function normalize(value, unit) {
+    return value * getUnitFactor(unit);
+  }
+
 </script>
