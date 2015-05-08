@@ -35,6 +35,11 @@
         type: Number,
         notify: true
       },
+      normalizedValue: {
+        type: Number,
+        notify: false,
+        readOnly: true
+      },
       result: {
         type: Number,
         notify: true,
@@ -57,9 +62,8 @@
 
       if(this.isComplete()) {
 
-        var normalizedValue = normalize(this.value, this.from),
-            targetUnitFactor = getUnitFactor(this.to),
-            result = (normalizedValue / targetUnitFactor);
+        var targetUnitFactor = getUnitFactor(this.to),
+            result = (this.normalizedValue / targetUnitFactor);
 
         return parseFloat(result.toPrecision(12));
 
@@ -69,7 +73,20 @@
 
     },
 
+    updateNormalizedValue: function() {
+
+      if(!isDefined(this.value) || !isDefined(this.from)) {
+        this._setNormalizedValue(null);
+        return;
+      }
+
+      this._setNormalizedValue(normalize(this.value, this.from));
+
+    },
+
     update: function() {
+
+      this.updateNormalizedValue();
 
       if(!this.isComplete()) {
         this._setResult(null);
