@@ -1,7 +1,7 @@
 {
   "name": "polymer-unit-prefix",
   "dependencies": {
-    "polymer": "polymer/polymer#v0.9-rc.1"
+    "polymer": "polymer/polymer#v0.9.0-rc.1"
   },
   "devDependencies": {
     "test-fixture": "polymerelements/test-fixture#^0.8.0",
@@ -10,7 +10,7 @@
     "prism-element": "PolymerElements/prism-element",
     "hydrolysis": "Polymer/hydrolysis",
     "web-component-tester": "~2.2.3",
-    "marked-element": "PolymerElements/marked-element#^0.3.3"
+    "marked-element": "PolymerElements/marked-element"
   },
   "homepage": "https://github.com/gronke/polymer-unit-prefix/",
   "license": "MIT"
