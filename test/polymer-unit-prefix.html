@@ -65,6 +65,13 @@
         expect(el.value).to.be.equal(testValues.value);
       });
 
+      test('provides interface to normalize function', function() {
+        expect(el.normalize).to.be.a('function');
+
+        expect(el.normalize(1, 'kilometer')).to.be.equal(1000);
+        expect(el.normalize(1000, 'millimeter')).to.be.equal(1);
+      })
+
     });
 
     suite('normalization', function() {
