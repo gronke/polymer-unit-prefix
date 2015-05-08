@@ -70,7 +70,16 @@
 
         expect(el.normalize(1, 'kilometer')).to.be.equal(1000);
         expect(el.normalize(1000, 'millimeter')).to.be.equal(1);
-      })
+      });
+
+      test('provides interface to calculate function', function() {
+        expect(el.normalize).to.be.a('function');
+
+        expect(el.calculate('kilometer', 'meter', 1)).to.be.equal(1000);
+        expect(el.calculate('centimeter', 'meter', 100)).to.be.equal(1);
+        expect(el.calculate('millimeter', 'centimeter', 10)).to.be.equal(1);
+        expect(el.calculate('meter', 'decimeter', 1)).to.be.equal(10);
+      });
 
     });
 
