@@ -362,6 +362,43 @@
 
     });
 
+     suite('time units', function() {
+
+      setup(function() {
+        el.from = null;
+        el.to = null;
+        el.value = null;
+      });
+
+      test('can translate from hour to minute', function() {
+
+        el.from = 'hour';
+        el.to = 'minute';
+
+        el.value = 1;
+        expect(el.result).to.be.equal(60);
+
+        el.value = 0;
+        expect(el.result).to.be.equal(0);
+
+      });
+
+      test('can translate from second to minute', function() {
+
+        el.from = 'second';
+        el.to = 'minute';
+
+        el.value = 60;
+        expect(el.result).to.be.equal(1);
+
+        el.value = 0;
+        expect(el.result).to.be.equal(0);
+
+      });
+
+
+    });
+
   });
 
   function quantize(from, to, value) {
