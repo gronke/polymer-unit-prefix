@@ -90,6 +90,17 @@
 
     });
 
+    suite('calculate', function() {
+
+      test('does accept 0 as value', function() {
+
+        el.value = 23;
+        expect(el.calculate('meter', 'meter', 0)).to.be.equal(0);
+
+      });
+
+    });
+
     suite('prefixes', function() {
 
       test('can be detected', function() {
