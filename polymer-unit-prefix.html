@@ -111,6 +111,19 @@
 
     normalize: function(value, unit) {
       return normalize(value, unit);
+    },
+
+    getBaseUnit: function(unit) {
+      var prefix = getUnitPrefix(unit);
+
+      if(!prefix) {
+        return unit;
+      }
+
+      var baseUnit = unit.substr(prefix.length,unit.length-prefix.length);
+
+      return (baseUnit === '') ? null : baseUnit;
+
     }
 
   });

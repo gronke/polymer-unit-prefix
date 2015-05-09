@@ -83,6 +83,19 @@
 
     });
 
+    suite('prefixes', function() {
+
+      test('can be detected', function() {
+
+        expect(el.getBaseUnit('meter')).to.be.equal('meter');
+        expect(el.getBaseUnit('kilometer')).to.be.equal('meter');
+        expect(el.getBaseUnit('kilogram')).to.be.equal('gram');
+        expect(el.getBaseUnit('kilo')).to.be.null;
+
+      });
+
+    });
+
     suite('normalization', function() {
 
       setup(function() {
