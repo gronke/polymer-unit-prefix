@@ -191,7 +191,7 @@
 
       });
 
-      test('does normalizes timeUnit minute', function() {
+      test('does normalize timeUnit minute', function() {
 
         el.from = 'minute';
         el.to = null;
@@ -207,7 +207,7 @@
 
       });
 
-      test('does normalizes timeUnit hour', function() {
+      test('does normalize timeUnit hour', function() {
 
         el.from = 'hour';
         el.to = null;
@@ -226,7 +226,7 @@
 
       });
 
-      test('does normalizes timeUnit day', function() {
+      test('does normalize timeUnit day', function() {
 
         el.from = 'day';
         el.to = null;
@@ -245,7 +245,7 @@
 
       });
 
-      test('does normalizes timeUnit week', function() {
+      test('does normalize timeUnit week', function() {
 
         el.from = 'week';
         el.to = null;
@@ -264,7 +264,76 @@
 
       });
 
-      test('does normalizes timeUnit millisecond', function() {
+      test('does normalize timeUnit millisecond', function() {
+
+        el.from = 'millisecond';
+        el.to = null;
+
+        el.value = 0;
+        expect(el.getNormalizedValue()).to.be.equal(0);
+
+        el.value = 1;
+        expect(el.getNormalizedValue()).to.be.equal(1/1000);
+
+        el.value = -1;
+        expect(el.getNormalizedValue()).to.be.equal(-1/1000);
+
+        el.value = 1000;
+        expect(el.getNormalizedValue()).to.be.equal(1);
+
+      });
+
+    });
+
+    suite('denormalization', function() {
+
+      setup(function() {
+        el.from = null;
+        el.to = null;
+        el.value = null;
+      });
+
+      test('does denormalize timeUnit second', function() {
+
+        expect(el.denormalize(0, 'second')).to.be.equal(0);
+        expect(el.denormalize(1, 'second')).to.be.equal(1);
+        expect(el.denormalize(-1, 'second')).to.be.equal(-1);
+
+      });
+
+      test('does denormalize timeUnit minute', function() {
+
+        expect(el.denormalize(0, 'minute')).to.be.equal(0);
+        expect(el.denormalize(60, 'minute')).to.be.equal(1);
+        expect(el.denormalize(-60, 'minute')).to.be.equal(-1);
+
+      });
+
+      test('does denormalize timeUnit hour', function() {
+
+        expect(el.denormalize(0, 'hour')).to.be.equal(0);
+        expect(el.denormalize(3600, 'hour')).to.be.equal(1);
+        expect(el.denormalize(-3600, 'hour')).to.be.equal(-1);
+
+      });
+
+      test('does normalize timeUnit day', function() {
+
+        expect(el.denormalize(0, 'day')).to.be.equal(0);
+        expect(el.denormalize(86400, 'day')).to.be.equal(1);
+        expect(el.denormalize(-86400, 'day')).to.be.equal(-1);
+
+      });
+
+      test('does normalize timeUnit week', function() {
+
+        expect(el.denormalize(0, 'week')).to.be.equal(0);
+        expect(el.denormalize(604800, 'week')).to.be.equal(1);
+        expect(el.denormalize(-604800, 'week')).to.be.equal(-1);
+
+      });
+
+      test('does normalize timeUnit millisecond', function() {
 
         el.from = 'millisecond';
         el.to = null;
