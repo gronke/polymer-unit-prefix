@@ -43,11 +43,6 @@
         type: Number,
         notify: true
       },
-      normalizedValue: {
-        type: Number,
-        notify: false,
-        readOnly: true
-      },
       result: {
         type: Number,
         notify: true,
@@ -62,17 +57,13 @@
       this.update();
     },
 
-    isComplete: function() {
-      return (isDefined(this.from) && isDefined(this.to) && isDefined(this.value));
-    },
-
     calculate: function(from, to, value) {
 
       from = from || this.from;
       to = to || this.to;
       value = value || this.value;
 
-      if(this.isComplete()) {
+      if((isDefined(from) && isDefined(to) && isDefined(value))) {
 
         var targetUnitFactor = getUnitFactor(to),
             result = normalize((value / targetUnitFactor), from);
@@ -81,18 +72,7 @@
 
       }
 
-      return null;
-
-    },
-
-    updateNormalizedValue: function() {
-
-      if(!isDefined(this.value) || !isDefined(this.from)) {
-        this._setNormalizedValue(null);
-        return;
-      }
-
-      this._setNormalizedValue(normalize(this.value, this.from));
+      return undefined;
 
     },
 
@@ -104,25 +84,32 @@
         this.from = this.getBaseUnit(this.to);
       }
 
-      this.updateNormalizedValue();
-
-      if(!this.isComplete()) {
-        this._setResult(undefined);
-        return;
-      }
-
       this._setResult(this.calculate());
 
+    },
+
+    getNormalizedValue: function() {
+
+      if(!isDefined(this.from) || !isDefined(this.value))
+        return null;
+
+      return this.normalize(this.value, this.from);
+      
     },
 
     normalize: function(value, unit) {
       return normalize(value, unit);
     },
 
+    denormalize: function(value, unit) {
+      return denormalize(value, unit);
+    },
+
     getBaseUnit: function(unit) {
+
       var prefix = getUnitPrefix(unit);
 
-      if(!prefix) {
+      if(!prefix || !isDefined(unit)) {
         return unit;
       }
 
@@ -172,7 +159,11 @@
   }
 
   function normalize(value, unit) {
-    return getUnitFactor(unit) * value;
+    return value * getUnitFactor(unit);
+  }
+
+  function denormalize(value, unit) {
+    return value / getUnitFactor(unit)
   }
 
 </script>
