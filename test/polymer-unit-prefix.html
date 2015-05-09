@@ -96,6 +96,38 @@
 
     });
 
+    suite('auto-translate', function() {
+
+      test('to base unit when only from was specified', function() {
+
+        el.from = 'kilometer';
+        el.to = undefined;
+        el.value = 1;
+        expect(el.result).to.be.equal(1000);
+
+        el.from = 'centimeter';
+        el.to = undefined;
+        el.value = 100;
+        expect(el.result).to.be.equal(1);
+
+      });
+
+      test('from base unit when only to was specified', function() {
+
+        el.from = undefined;
+        el.to = 'kilometer';
+        el.value = 1000;
+        expect(el.result).to.be.equal(1);
+
+        el.from = undefined;
+        el.to = 'centimeter';
+        el.value = 1;
+        expect(el.result).to.be.equal(100);
+
+      });
+
+    });
+
     suite('normalization', function() {
 
       setup(function() {
