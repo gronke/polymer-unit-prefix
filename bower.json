@@ -1,7 +1,7 @@
 {
   "name": "polymer-unit-prefix",
   "dependencies": {
-    "polymer": "polymer/polymer#v0.9.0-rc.1"
+    "polymer": "polymer/polymer"
   },
   "devDependencies": {
     "test-fixture": "polymerelements/test-fixture#^0.8.0",
