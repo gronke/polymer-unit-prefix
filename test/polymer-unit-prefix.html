@@ -19,9 +19,6 @@
   <script>
 
   var quantizationTable = {
-    meter: {
-      'kilometer': 3.28084
-    },
     'second': {
       'millisecond': 1000,
       'minute': (1 / 60),
@@ -494,7 +491,7 @@
 
     });
 
-     suite('time units', function() {
+    suite('time units', function() {
 
       setup(function() {
         el.from = null;
@@ -527,7 +524,6 @@
         expect(el.result).to.be.equal(0);
 
       });
-
 
     });
 
